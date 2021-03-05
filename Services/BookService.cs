@@ -8,35 +8,32 @@ namespace books_dotnet.Services
 {
   public class BookService
   {
-    private readonly IMongoCollection<Book> _books;
-
+    private readonly IMongoCollection<BookModel> BookMongoCollection;
     public BookService(DatabaseSettings settings)
     {
       var client = new MongoClient(settings.ConnectionString);
       var database = client.GetDatabase(settings.DatabaseName);
 
-      _books = database.GetCollection<Book>(settings.BooksCollectionName);
+      BookMongoCollection = database.GetCollection<BookModel>(settings.BooksCollectionName);
     }
+    public List<BookModel> Get() =>
+        BookMongoCollection.Find(book => true).ToList();
 
-    public List<Book> Get() =>
-        _books.Find(book => true).ToList();
+    public BookModel Get(string id) =>
+        BookMongoCollection.Find<BookModel>(book => book.Id == id).FirstOrDefault();
 
-    public Book Get(string id) =>
-        _books.Find<Book>(book => book.Id == id).FirstOrDefault();
-
-    public Book Create(Book book)
+    public BookModel Create(BookModel book)
     {
-      _books.InsertOne(book);
+      BookMongoCollection.InsertOne(book);
       return book;
     }
+    public void Update(string id, BookModel bookIn) =>
+        BookMongoCollection.ReplaceOne(book => book.Id == id, bookIn);
 
-    public void Update(string id, Book bookIn) =>
-        _books.ReplaceOne(book => book.Id == id, bookIn);
-
-    public void Remove(Book bookIn) =>
-        _books.DeleteOne(book => book.Id == bookIn.Id);
+    public void Remove(BookModel bookIn) =>
+        BookMongoCollection.DeleteOne(book => book.Id == bookIn.Id);
 
     public void Remove(string id) =>
-        _books.DeleteOne(book => book.Id == id);
+        BookMongoCollection.DeleteOne(book => book.Id == id);
   }
 }

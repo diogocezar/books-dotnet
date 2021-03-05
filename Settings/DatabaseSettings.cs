@@ -6,7 +6,6 @@ namespace books_dotnet.Settings
     public string ConnectionString { get; set; }
     public string DatabaseName { get; set; }
   }
-
   public interface IDatabaseSettings
   {
     string BooksCollectionName { get; set; }

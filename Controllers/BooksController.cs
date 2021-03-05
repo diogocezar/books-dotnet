@@ -9,60 +9,53 @@ namespace books_dotnet.Controllers
   [ApiController]
   public class BooksController : ControllerBase
   {
-    private readonly BookService _bookService;
+    private readonly BookService BookService;
     public BooksController(BookService bookService)
     {
-      _bookService = bookService;
+      BookService = bookService;
     }
     [HttpGet]
-    public ActionResult<List<Book>> Get() =>
-        _bookService.Get();
+    public ActionResult<List<BookModel>> Get() => BookService.Get();
     [HttpGet("{id:length(24)}", Name = "GetBook")]
-    public ActionResult<Book> Get(string id)
+    public ActionResult<BookModel> Get(string id)
     {
-      var book = _bookService.Get(id);
-
+      var book = BookService.Get(id);
       if (book == null)
       {
         return NotFound();
       }
-
       return book;
     }
     [HttpPost]
-    public ActionResult<Book> Create(Book book)
+    public ActionResult<BookModel> Create(BookModel book)
     {
-      _bookService.Create(book);
-
+      BookService.Create(book);
       return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
     }
 
     [HttpPut("{id:length(24)}")]
-    public IActionResult Update(string id, Book bookIn)
+    public IActionResult Update(string id, BookModel bookIn)
     {
-      var book = _bookService.Get(id);
-
+      var book = BookService.Get(id);
       if (book == null)
       {
         return NotFound();
       }
-
-      _bookService.Update(id, bookIn);
-
+      BookService.Update(id, bookIn);
       return NoContent();
     }
 
     [HttpDelete("{id:length(24)}")]
     public IActionResult Delete(string id)
     {
-      var book = _bookService.Get(id);
+      var book = BookService.Get(id);
 
       if (book == null)
       {
         return NotFound();
       }
 
-      _bookService.Remove(book.Id);
+      BookService.Remove(book.Id);
 
       return NoContent();
     }

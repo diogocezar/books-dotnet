@@ -1,4 +1,3 @@
-/Users/diogocezar/studies/books-dotnet/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/diogocezar/studies/books-dotnet/bin/Debug/netcoreapp3.1/appsettings.json
 /Users/diogocezar/studies/books-dotnet/bin/Debug/netcoreapp3.1/Properties/launchSettings.json
 /Users/diogocezar/studies/books-dotnet/bin/Debug/netcoreapp3.1/books-dotnet.deps.json
